@@ -4,7 +4,7 @@
 #ifndef FONTS_DATA_H
 #define FONTS_DATA_H
 
-extern MD_MAX72XX::fontType_t newFont[] PROGMEM = 
+MD_MAX72XX::fontType_t newFont[] PROGMEM = 
 {
 	0, 	// 0 
 	0, 	// 1 

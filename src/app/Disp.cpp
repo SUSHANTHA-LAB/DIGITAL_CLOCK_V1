@@ -1,13 +1,6 @@
-
-#include <Arduino.h>
-#include <MD_Parola.h>
-#include <MD_MAX72xx.h>
-#include <SPI.h>
-#include <NTPClient.h>
-#include <time.h>
 #include <..\src\app\Disp.h>
-#include <..\src\app\FontData.h>
-
+#include <..\src\app\WiFi.h>
+#include <math.h>
 
 //  DISPLAY SETUP
 // Uncomment according to your hardware type
@@ -17,23 +10,27 @@
 // Defining size, and output pins
 #define MAX_DEVICES 4
 #define CS_PIN 5
+#define BRIGHTNESS 0
 
-MD_Parola Display = MD_Parola(HARDWARE_TYPE, CS_PIN, MAX_DEVICES);
+static MD_Parola Display = MD_Parola(HARDWARE_TYPE, CS_PIN, MAX_DEVICES);
 
 MD_MAX72XX::fontType_t *tf5x3 = newFont;
 
 static char szDTime[12];
 static char szDate[10];
-//static char Weather[10];
+// static char Weather[10];
 
 
 void Display_Init(){
   Display.begin();
-  Display.setIntensity(0);
+  Display.setIntensity(BRIGHTNESS);
   Display.displayClear();
 
   Display.setFont(tf5x3);
   Display.setCharSpacing(1);
+
+  Display.setTextAlignment(PA_LEFT);
+  Display.print(" MTWRFS");
 }
 
 
@@ -41,6 +38,7 @@ void Display_Init(){
 void Disp_Time()
 {
   struct tm timeinfo;
+
   if (!getLocalTime(&timeinfo))
   {
     Serial.println("Failed to obtain time");
@@ -75,6 +73,7 @@ void Disp_Time()
   Serial.println("Unknown time");
     break;
   }
+
   Display.setTextAlignment(PA_LEFT);
   Display.print(szDTime);
 }
@@ -83,22 +82,37 @@ void Disp_Time()
 void Disp_Date()
 {
   struct tm timeinfo;
+
   if (!getLocalTime(&timeinfo))
   {
-    Serial.println("Failed to obtain time");
+    Serial.println("Failed to obtain Date info");
     return;
   }
   sprintf(szDate, "%d:%d:%d", timeinfo.tm_mday, timeinfo.tm_mon + 1, timeinfo.tm_year + 1900);
- // Serial.println(szDate);
-
+  
   Display.setTextAlignment(PA_LEFT);
   Display.print(szDate);
 }
 
 
-void Dweather(char Weather[10])
-{
+void Disp_weather(char* Weather)
+{ 
     Display.setTextAlignment(PA_LEFT);
     Serial.println(Weather);
     Display.print(Weather);
+}
+
+
+void Disp_brightness(){
+    struct tm timeinfo;
+
+  if (!getLocalTime(&timeinfo))
+  {
+    Serial.println("Failed to obtain time");
+    return;
+  }
+
+  uint8_t y = ((-28*pow((timeinfo.tm_hour - 12), 2))+25);
+  //Serial.println(y);
+  Display.setIntensity(y);
 }
