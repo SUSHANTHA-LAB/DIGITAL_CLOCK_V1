@@ -1,4 +1,4 @@
- Digital Wall Clock
+## Digital Wall Clock
 
 ![Digital Wall Clock](clock_image.jpg)
 
