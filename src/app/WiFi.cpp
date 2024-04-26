@@ -6,16 +6,16 @@
 String jsonBuffer;
 // WiFi SETUP
 // Replace with your network credentials
- const char *ssid = "shree";
- const char *password = "Leelamma@157=";
+ const char *ssid = "****************";
+ const char *password = "******************";
 
  const char *ntpServer = "pool.ntp.org";
 const long gmtOffset_sec = 19800;
  const int daylightOffset_sec = 0;
 
-String openWeatherMapApiKey = "bc9993ab8d9bcfc98a94eac5846ee0b4";
-String Lat = "17.406644548114567";
- String Lon = "78.55805746746056";
+String openWeatherMapApiKey = "*********************";
+String Lat = "******************";
+ String Lon = "***************";
  String openWeatherServerPath = "http://api.openweathermap.org/data/2.5/weather?lat=" + Lat + "&lon=" + Lon + "&appid=" + openWeatherMapApiKey;
 
 
